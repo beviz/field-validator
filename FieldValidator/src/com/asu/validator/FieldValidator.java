@@ -29,7 +29,6 @@ import com.asu.validator.referee.RegexReferee;
  * @author Bevis.Zhao(avengerbevis@gmail.com)
  * 
  */
-@SuppressWarnings("deprecation")
 public class FieldValidator {
 	// Singleton
 	protected FieldValidator() {
