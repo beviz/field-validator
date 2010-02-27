@@ -12,7 +12,6 @@ import java.util.concurrent.ConcurrentHashMap;
 import com.asu.validator.referee.ChineseReferee;
 import com.asu.validator.referee.DateTimeReferee;
 import com.asu.validator.referee.EarlierThanReferee;
-import com.asu.validator.referee.EmailReferee;
 import com.asu.validator.referee.EnglishReferee;
 import com.asu.validator.referee.EqualsReferee;
 import com.asu.validator.referee.GreaterThanReferee;
@@ -22,7 +21,6 @@ import com.asu.validator.referee.NonEqualsReferee;
 import com.asu.validator.referee.NonNullReferee;
 import com.asu.validator.referee.NumberReferee;
 import com.asu.validator.referee.RegexReferee;
-import com.asu.validator.referee.URLReferee;
 /**
  * 
  * Ö÷Ð£ÑéÆ÷
@@ -54,8 +52,6 @@ public class FieldValidator {
 		registerReferee(Rule.English.class, EnglishReferee.class);
 		registerReferee(Rule.Num.class, NumberReferee.class);
 		registerReferee(Rule.Regex.class, RegexReferee.class);
-		registerReferee(Rule.URL.class, URLReferee.class);
-		registerReferee(Rule.Email.class, EmailReferee.class);
 		registerReferee(Rule.DateTime.class, DateTimeReferee.class);
 		registerReferee(Rule.GreaterThan.class, GreaterThanReferee.class);
 		registerReferee(Rule.LessThan.class, LessThanReferee.class);

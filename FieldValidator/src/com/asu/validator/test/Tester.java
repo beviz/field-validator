@@ -108,20 +108,6 @@ public class Tester extends TestCase {
 	}
 
 	@Test
-	public void testURL() {
-		bean.setUrl("https://www.google.com");
-		assertEquals("URL string is not a url address", FieldValidator
-				.validate(bean, "url").size() > 0, false);
-	}
-
-	@Test
-	public void testEmail() {
-		bean.setUrl("avengerbevis@gmail.com");
-		assertEquals("Email address string is not a email address",
-				FieldValidator.validate(bean, "email").size() > 0, false);
-	}
-
-	@Test
 	public void testDateTime() {
 		bean.setDatetime("2009-12-17 12:34:25");
 		assertEquals("the string dose not matched any format", FieldValidator

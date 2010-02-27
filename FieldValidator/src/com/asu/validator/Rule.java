@@ -50,11 +50,6 @@ public interface Rule {
 		long max();
 	}
 
-	// E-mail类型
-	@Retention(RetentionPolicy.RUNTIME)
-	@Target( { ElementType.FIELD })
-	public static @interface Email {
-	}
 
 	// 纯英文
 	@Retention(RetentionPolicy.RUNTIME)
@@ -68,11 +63,6 @@ public interface Rule {
 	public static @interface Chinese {
 	}
 
-	// URL地址
-	@Retention(RetentionPolicy.RUNTIME)
-	@Target( { ElementType.FIELD })
-	public static @interface URL {
-	}
 
 	// 正则表达式匹配
 	@Retention(RetentionPolicy.RUNTIME)

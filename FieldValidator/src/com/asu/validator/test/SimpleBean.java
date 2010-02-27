@@ -5,7 +5,6 @@ import java.util.Date;
 import com.asu.validator.Rule.Chinese;
 import com.asu.validator.Rule.DateTime;
 import com.asu.validator.Rule.EarlierThan;
-import com.asu.validator.Rule.Email;
 import com.asu.validator.Rule.English;
 import com.asu.validator.Rule.Equals;
 import com.asu.validator.Rule.GreaterThan;
@@ -18,11 +17,8 @@ import com.asu.validator.Rule.Num;
 import com.asu.validator.Rule.NumberRange;
 import com.asu.validator.Rule.NumberType;
 import com.asu.validator.Rule.Regex;
-import com.asu.validator.Rule.URL;
 
 public class SimpleBean {
-	@Email
-	private String email;
 	@English
 	private String english;
 	@Chinese
@@ -43,9 +39,6 @@ public class SimpleBean {
 	private int high;
 	@Equals("high")
 	private int samehigh;
-
-	@URL
-	private String url;
 
 	@GreaterThan("number2")
 	@NonEquals("number2")
@@ -91,14 +84,6 @@ public class SimpleBean {
 		return none;
 	}
 
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
 	public String getEnglish() {
 		return english;
 	}
@@ -113,14 +98,6 @@ public class SimpleBean {
 
 	public void setChinese(String chinese) {
 		this.chinese = chinese;
-	}
-
-	public String getUrl() {
-		return url;
-	}
-
-	public void setUrl(String url) {
-		this.url = url;
 	}
 
 	public String getRegex() {
