@@ -16,7 +16,8 @@ public class ChineseReferee extends AbstractReferee<Chinese> {
 
 	@Override
 	public State check(Object data) {
-		return regexMatch("^[\\u0391-\\uFFE5\\s\\t\\n\\x0B\\f\\r]+$", data, "The value is not chinese");
+		return regexMatch("^[\\u0391-\\uFFE5\\s\\t\\n\\x0B\\f\\r]+$", data, 
+				getMessageRuleFirst("string.chinese", "The value is not chinese"));
 	}
 
 }

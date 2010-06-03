@@ -10,7 +10,6 @@ import com.asu.validator.Rule.Equals;
  *
  */
 public class EqualsReferee extends AbstractCompareReferee<Equals> {
-	private final static String message = "The data is not equals with target field.";
 	@Override
 	public State check(Object data) {
 		Object target = getFieldValue(rule.value());
@@ -18,6 +17,6 @@ public class EqualsReferee extends AbstractCompareReferee<Equals> {
 			return simpleSuccess();
 		if(data != null && data.equals(target))
 			return simpleSuccess();
-		return failure(message);
+		return failure(getMessageRuleFirst("object.equals", "The data is not equals with target field."));
 	}
 }

@@ -27,9 +27,11 @@ public class GreaterThanReferee extends AbstractCompareReferee<GreaterThan> {
 		BigDecimal number = new BigDecimal(data + ""),
 			targetNumber = new BigDecimal(target + "");
 		
-		if (number.doubleValue() >= targetNumber.doubleValue())
+		if (number.doubleValue() > targetNumber.doubleValue())
+			return simpleSuccess();
+		else if (rule.equalable() && number.doubleValue() == targetNumber.doubleValue())
 			return simpleSuccess();
 		else
-			return failure("The data is not greater than target data");
+			return failure(getMessageRuleFirst("number.greaterThan", "The data is not greater than target data"));
 	}
 }

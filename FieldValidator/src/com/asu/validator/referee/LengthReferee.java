@@ -1,5 +1,7 @@
 package com.asu.validator.referee;
 
+import java.lang.annotation.Annotation;
+
 import com.asu.validator.AbstractReferee;
 import com.asu.validator.State;
 import com.asu.validator.Rule.Length;
@@ -14,6 +16,17 @@ import com.asu.validator.Rule.Length;
  */
 public class LengthReferee extends AbstractReferee<Length> {
 
+
+	/**
+	 * 不进行null验证
+	 */
+	@Override
+	public State check(Object instance, Object data, Annotation annotation,
+			String fieldName) {
+		setup(instance, annotation, fieldName);
+		return check(data);
+	}
+	
 	@Override
 	public State check(Object data) {
 		String value = (String) data;
@@ -21,8 +34,8 @@ public class LengthReferee extends AbstractReferee<Length> {
 		if (length >= rule.min() && length <= rule.max())
 			return simpleSuccess();
 		else
-			return failure(String.format(
-					"The length of string data should be between %d and %d, but %d.",
+			return failure(String.format(getMessageRuleFirst("string.length",
+						"The length of string data should be between %d and %d, but %d."),
 					rule.min(), rule.max(), length));
 	}
 

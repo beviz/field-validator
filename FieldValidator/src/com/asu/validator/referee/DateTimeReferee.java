@@ -18,7 +18,7 @@ public class DateTimeReferee extends AbstractReferee<DateTime> {
 				sdf.parse((String)data);
 				return simpleSuccess();
 			} catch (ParseException e) {
-				return failure("The field dose not matches any format");
+				return failure(getMessageRuleFirst("datetime.format", "The field dose not matches any format"));
 			}
 		}
 		// Impossible

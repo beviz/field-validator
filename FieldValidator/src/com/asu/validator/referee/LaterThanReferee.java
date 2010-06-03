@@ -36,7 +36,7 @@ public class LaterThanReferee extends AbstractCompareReferee<LaterThan> {
 		if(currDate.getTime() >= targetDate.getTime())
 			return simpleSuccess();
 		else
-			return failure("The data is not earlier than target.");
+			return failure(getMessageRuleFirst("datetime.laterThan", "The data is not earlier than target."));
 			
 	}
 

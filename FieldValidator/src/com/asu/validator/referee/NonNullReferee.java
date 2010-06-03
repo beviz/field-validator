@@ -15,7 +15,9 @@ public class NonNullReferee extends AbstractReferee<NonNull> {
 
 	@Override
 	public State check(Object instance, Object data, Annotation rule, String fieldName) {
-		return data == null ? failure("The field data is null") : simpleSuccess();
+		return data == null 
+			? failure(getMessageRuleFirst("object.nonNull","The field data is null")) 
+			: simpleSuccess();
 	}
 
 	@Override

@@ -16,7 +16,7 @@ public class NumberReferee extends AbstractReferee<Num> {
 
 	@Override
 	public State check(Object data) {
-		String value = (String) data;
+		String value = String.valueOf(data);
 		try {
 			switch (rule.value()) {
 			case SHORT:
@@ -40,8 +40,8 @@ public class NumberReferee extends AbstractReferee<Num> {
 			}
 			return null;
 		} catch (Exception e) {
-			return failure(String.format(
-					"The data<%s> format is not type of %s", fieldName, rule.value().name()));
+			return failure(String.format(getMessageRuleFirst("number.type",
+					"The data<%s> format is not type of %s"), fieldName, rule.value().name()));
 		}
 	}
 

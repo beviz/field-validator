@@ -18,14 +18,13 @@ import com.asu.validator.Rule.NonEquals;
  *
  */
 public class NonEqualsReferee extends AbstractCompareReferee<NonEquals> {
-	private final static String message = "The data equals target data.";
 	@Override
 	public State check(Object data) {
 		Object target = getFieldValue(rule.value());
 		if((data == null && target != null) || (data != null && target == null))
 			return simpleSuccess();
 		if(data == null && target == null || data.equals(target))
-			return failure(message);
+			return failure(getMessageRuleFirst("object.nonEquals", "The data equals target data."));
 		return simpleSuccess();
 	}
 }

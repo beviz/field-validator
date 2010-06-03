@@ -8,7 +8,8 @@ public class EnglishReferee extends AbstractReferee<English> {
 
 	@Override
 	public State check(Object data) {
-		return regexMatch("^[A-Za-z\\s\\t\\n\\x0B\\f\\r]+$", data, "The value is not english");
+		return regexMatch("^[A-Za-z\\s\\t\\n\\x0B\\f\\r]+$", data, 
+				getMessageRuleFirst("string.english", "The value is not english"));
 	}
 
 }

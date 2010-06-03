@@ -132,8 +132,8 @@ public class FieldValidator {
 	 * @param bean
 	 * @return
 	 */
-	public final static Map<String, List<Failure>> validateAll(Object bean) {
-		return validateAll(bean, false);
+	public final static Map<String, List<Failure>> validateAll(Object bean, String... except) {
+		return validateAll(bean, false, except);
 	}
 
 	/**
@@ -141,12 +141,13 @@ public class FieldValidator {
 	 * 
 	 * @param bean 实例
 	 * @param full 是否校验所有的注解(false则最多返回一个失败结果)
+	 * @param except 排除校验的字段
 	 * 
 	 * @return 包含错误信息的Map<错误字段名, 对应错误信息描述>
 	 * 
 	 */
 	public final static Map<String, List<Failure>> validateAll(Object bean,
-			boolean full) {
+			boolean full, String... except) {
 
 		// 处理结果, fieldName 2 List<errorMessage>
 		Map<String, List<Failure>> validateResult = new HashMap<String, List<Failure>>();
@@ -155,6 +156,10 @@ public class FieldValidator {
 
 		// 逐个读取字段
 		for (Field field : fields) {
+			// 如果是剔除字段，则不校验
+			if(contains(except, field.getName()))
+				continue;
+			
 			List<Failure> failures = validateField(bean, field, full);
 			if (failures != null && failures.size() != 0) {
 				validateResult.put(field.getName(), failures);
@@ -162,7 +167,21 @@ public class FieldValidator {
 		}
 		return validateResult;
 	}
-
+	/**
+	 * 判断数组中是否存在元素
+	 * 
+	 * @param <T>
+	 * @param a
+	 * @param o
+	 * @return
+	 */
+	public static <T> boolean contains(T[] a, T o){
+		for(T one : a){
+			if(one.equals(o))
+				return true;
+		}
+		return false;
+	}
 	/**
 	 * 校验Field
 	 */

@@ -13,7 +13,9 @@ public class RegexReferee extends AbstractReferee<Regex> {
 
 	@Override
 	public State check(Object data) {
-		return regexMatch(rule.value(), data, "The data is not match regex." + rule.value());
+		return regexMatch(rule.value(), data, 
+				String.format(getMessageRuleFirst("object.equals", "The data named %s is not match regex.")
+						, rule.name()));
 	}
 
 }

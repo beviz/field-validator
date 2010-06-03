@@ -1,10 +1,78 @@
 package com.asu.validator;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.regex.Pattern;
 
-public abstract class AbstractReferee<T extends Annotation> implements Referee {
+import org.apache.commons.configuration.Configuration;
+import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.lang.StringUtils;
 
+/**
+ * 
+ * 规则校验器抽象实现，提供基础功能
+ * 
+ *
+ * @author Bevis.Zhao
+ * @date 2010-6-3
+ * @param <T>
+ */
+public abstract class AbstractReferee<T extends Annotation> implements Referee {
+	
+	// 在properties文件中读取的消息
+	public final static Map<String, String> VALIDATE_MESSAGES = new HashMap<String, String>();
+	
+	static {
+		// 初始化读取配置文件
+		Configuration settings = null;
+		try {
+			settings = new PropertiesConfiguration("field-validator_messages.properties");
+		} catch (Exception e) {
+			// 读取失败，不报错
+		}
+		
+		if (settings != null) {
+			Iterator<?> keys = settings.getKeys();
+			
+			while (keys.hasNext()) {
+				String key = keys.next().toString();
+				String message = settings.getProperty(key).toString();
+				VALIDATE_MESSAGES.put(key, message);
+			}
+		}
+	}
+	/**
+	 * 获取Message，优先从rule中读取，
+	 * 
+	 * 如果找不到则在查询properties读取数值
+	 * 
+	 * @param key
+	 * @return
+	 */
+	protected String getMessageRuleFirst(String key, String def){
+		
+		// 优先读取ruleMessage
+		String ruleMessage = (String)invokeMethod(rule, "message");
+		return !StringUtils.isEmpty(ruleMessage) 
+			? ruleMessage.trim()
+			: getMessage(key, def);
+	}
+	
+	/**
+	 * 从properties文件中读取message，如果没有则使用def
+	 * 
+	 * @param key
+	 * @param def
+	 * @return
+	 */
+	protected String getMessage(String key, String def){
+		String found = VALIDATE_MESSAGES.get(key);
+		return found == null ? def : found;
+	}
+	
 	// 规则
 	protected T rule;
 	// Bean实例
@@ -65,7 +133,29 @@ public abstract class AbstractReferee<T extends Annotation> implements Referee {
 		else
 			return failure(errorMessage);
 	}
-	
+
+	/**
+	 * 调用方法
+	 *  
+	 * @param object
+	 * @param methodName
+	 * @param parameters
+	 * @return
+	 */
+	private static Object invokeMethod(Object object, String methodName, Object... parameters){
+		Class<?>[] parameterTypes = new Class<?>[parameters.length];
+		for(int i = 0; i < parameters.length; i++){
+			parameterTypes[i] = parameters[i].getClass();
+		}
+		Method method = null;
+		try {
+			method = object.getClass().getMethod(methodName, parameterTypes);
+			return method.invoke(object, parameters);
+		} catch (Exception e) {
+			throw new RuntimeException(String.format("调用类<%s>方法<%s>失败！", 
+					object.getClass(), method));
+		}
+	}
 	/**
 	 * 
 	 */

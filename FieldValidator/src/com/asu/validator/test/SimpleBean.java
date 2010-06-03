@@ -54,7 +54,7 @@ public class SimpleBean {
 	@NumberRange(max = 150)
 	private String age;
 
-	@Regex("^[a-zA-Z]*$")
+	@Regex(value = "^[a-zA-Z]*$", name = "就是个正则")
 	private String regex;
 
 	@DateTime("yyyy-MM-dd")
