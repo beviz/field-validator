@@ -83,6 +83,13 @@ public class FieldValidator {
 		currentMode = MODE.PRODUCT;
 	}
 	
+	/**
+	 * 判断运行模式是否为debug模式
+	 * @return
+	 */
+	public final static boolean isDebugMode(){
+		return currentMode == MODE.DEBUG;
+	}
 	
 	
 	/**

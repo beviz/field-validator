@@ -109,6 +109,10 @@ public interface Rule {
 
 		// 最大值 如果小于{@code min}将会抛出IllegalArgumentException
 		long max();
+		
+		boolean minEquals() default true;
+		
+		boolean maxEquals() default true;
 
 		// 手填消息，如果不设置则显示默认
 		String message() default "";

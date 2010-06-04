@@ -29,7 +29,7 @@ public class Tester extends TestCase {
 		// product模式性能较高
 		FieldValidator.productMode();
 		// 只可在product模式执行
-		FieldValidator.cachedRules(SimpleBean.class);
+		// FieldValidator.cachedRules(SimpleBean.class);
 	}
 
 	@Test
@@ -265,9 +265,11 @@ public class Tester extends TestCase {
 		bean.setData("简体中文长度>10");
 		bean.setStart(new Date());
 		bean.setEnd(new Date());
+		long start = System.currentTimeMillis();
 		for (int i = 0; i < times; ++i) {
 			FieldValidator.validateAll(bean);
 			FieldValidator.validate(bean, "data");
 		}
+		System.out.println(times + " use " + (System.currentTimeMillis() - start));
 	}
 }

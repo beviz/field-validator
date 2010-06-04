@@ -3,13 +3,9 @@ package com.asu.validator;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
+import java.util.ResourceBundle;
 import java.util.regex.Pattern;
-
-import org.apache.commons.configuration.Configuration;
-import org.apache.commons.configuration.PropertiesConfiguration;
-import org.apache.commons.lang.StringUtils;
 
 /**
  * 
@@ -26,22 +22,26 @@ public abstract class AbstractReferee<T extends Annotation> implements Referee {
 	public final static Map<String, String> VALIDATE_MESSAGES = new HashMap<String, String>();
 	
 	static {
+		initValidateMessages();
+	}
+	
+	/**
+	 * 初始化验证消息
+	 */
+	private static void initValidateMessages(){
+		// 在product模式只会执行此方法一次，但debug模式中会不断读取。所以清理
+		VALIDATE_MESSAGES.clear();
 		// 初始化读取配置文件
-		Configuration settings = null;
 		try {
-			settings = new PropertiesConfiguration("field-validator_messages.properties");
-		} catch (Exception e) {
-			// 读取失败，不报错
-		}
-		
-		if (settings != null) {
-			Iterator<?> keys = settings.getKeys();
-			
-			while (keys.hasNext()) {
-				String key = keys.next().toString();
-				String message = settings.getProperty(key).toString();
+			// 读取文件名为field-validator_messages.properties
+			ResourceBundle messages = ResourceBundle.getBundle("field-validator_messages");
+			for (String key : messages.keySet()) {
+				String message = messages.getString(key);
 				VALIDATE_MESSAGES.put(key, message);
 			}
+		} catch (Exception e) {
+			// 读取失败，不报错
+			return;
 		}
 	}
 	/**
@@ -56,7 +56,7 @@ public abstract class AbstractReferee<T extends Annotation> implements Referee {
 		
 		// 优先读取ruleMessage
 		String ruleMessage = (String)invokeMethod(rule, "message");
-		return !StringUtils.isEmpty(ruleMessage) 
+		return ! ruleMessage.trim().isEmpty() 
 			? ruleMessage.trim()
 			: getMessage(key, def);
 	}
@@ -69,6 +69,9 @@ public abstract class AbstractReferee<T extends Annotation> implements Referee {
 	 * @return
 	 */
 	protected String getMessage(String key, String def){
+		if (FieldValidator.isDebugMode()){
+			initValidateMessages();
+		}
 		String found = VALIDATE_MESSAGES.get(key);
 		return found == null ? def : found;
 	}
