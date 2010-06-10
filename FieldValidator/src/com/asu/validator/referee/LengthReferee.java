@@ -29,7 +29,7 @@ public class LengthReferee extends AbstractReferee<Length> {
 	
 	@Override
 	public State check(Object data) {
-		String value = (String) data;
+		String value = String.valueOf(data);
 		int length = length(value);
 		if (length >= rule.min() && length <= rule.max())
 			return simpleSuccess();
